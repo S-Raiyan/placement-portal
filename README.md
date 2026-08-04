@@ -1,0 +1,1 @@
+This project contains the admin and student where each student get the smart ID card and when the admin scan the QR of ID card the will mark the present or absent and student can view the update job and apply for the job where admin can see the applicaton update status like select or shorlisted 
