@@ -1,0 +1,65 @@
+name: Placement Portal CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 25
+
+      # -----------------------------
+      # Student Portal
+      # -----------------------------
+
+      - name: Install Student Portal dependencies
+        working-directory: ./student-portal
+        run: npm ci
+
+      - name: Build Student Portal
+        working-directory: ./student-portal
+        run: npm run build
+
+      # -----------------------------
+      # Admin Portal
+      # -----------------------------
+
+      - name: Install Admin Portal dependencies
+        working-directory: ./admin-portal
+        run: npm ci
+
+      - name: Build Admin Portal
+        working-directory: ./admin-portal
+        run: npm run build
+
+      # -----------------------------
+      # Backend
+      # -----------------------------
+
+      - name: Install Backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      # -----------------------------
+      # Docker
+      # -----------------------------
+
+      - name: Build Docker images
+        run: docker compose build
