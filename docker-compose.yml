@@ -1,0 +1,31 @@
+services:
+
+  backend:
+    build:
+      context: ./backend
+    container_name: placement-backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+
+  admin-portal:
+    build:
+      context: ./admin-portal
+    container_name: placement-admin
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  student-portal:
+    build:
+      context: ./student-portal
+    container_name: placement-student
+    ports:
+      - "3001:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

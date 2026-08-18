@@ -6,9 +6,9 @@ import {
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Jobs from "./pages/Jobs";
-import JobDetails from "./pages/JobDetails";
-import MyApplications from "./pages/MyApplications";
+import Jobs from "./pages/jobs";
+import JobDetails from "./pages/jobDetails";
+import MyApplications from "./pages/myapplications";
 import ApplyJob from "./pages/Applyjob";
 
 import ProtectedRoute from "./components/ProtectedRoute";
