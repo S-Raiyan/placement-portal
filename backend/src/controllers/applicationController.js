@@ -1,5 +1,5 @@
 import Application from "../models/Application.js";
-import Job from "../models/Job.js";
+import Job from "../models/job.js";
 import Student from "../models/Student.js";
 import { sendJobApplicationEmail } from "../services/emailservice.js";
 
