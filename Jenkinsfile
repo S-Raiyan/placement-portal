@@ -12,7 +12,10 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv(
+                    installationName: 'SonarQube',
+                    credentialsId: 'sonarqube-token'
+                ) {
                     withEnv(["PATH+SONAR=${tool 'SonarScanner'}/bin"]) {
                         sh '''
                             sonar-scanner \
