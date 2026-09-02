@@ -2,16 +2,24 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
 
         stage('Build Test') {
             steps {
                 echo 'Placement Portal CI/CD pipeline started successfully!'
                 sh 'echo Repository checkout successful'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                        sonar-scanner \
+                          -Dsonar.projectKey=placement-portal \
+                          -Dsonar.projectName=placement-portal \
+                          -Dsonar.sources=.
+                    '''
+                }
             }
         }
     }
