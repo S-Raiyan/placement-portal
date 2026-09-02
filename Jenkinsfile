@@ -12,16 +12,22 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
+
                 withSonarQubeEnv(
                     installationName: 'SonarQube',
                     credentialsId: 'sonarqube-token-new'
                 ) {
+
                     withEnv(["PATH+SONAR=${tool 'SonarScanner'}/bin"]) {
+
                         sh '''
                             sonar-scanner \
                               -Dsonar.projectKey=placement-portal \
                               -Dsonar.projectName=placement-portal \
-                              -Dsonar.sources=.
+                              -Dsonar.sources=. \
+                              -Dsonar.sourceEncoding=UTF-8 \
+                              -Dsonar.exclusions="**/node_modules/**,**/dist/**,**/build/**,**/.git/**,**/*.png,**/*.jpg,**/*.jpeg,**/*.gif,**/*.webp,**/*.ico,**/*.pdf" \
+                              -Dsonar.javascript.createTSProgramForOrphanFiles=false
                         '''
                     }
                 }
@@ -30,12 +36,17 @@ pipeline {
     }
 
     post {
+
         success {
             echo 'Pipeline completed successfully!'
         }
 
         failure {
             echo 'Pipeline failed!'
+        }
+
+        always {
+            echo 'CI/CD pipeline execution finished.'
         }
     }
 }
