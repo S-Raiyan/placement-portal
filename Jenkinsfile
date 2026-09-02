@@ -10,7 +10,6 @@ pipeline {
             }
         }
 
-<<<<<<< HEAD
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
@@ -23,7 +22,6 @@ pipeline {
                 }
             }
         }
-=======
 
     }
 
