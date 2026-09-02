@@ -13,16 +13,17 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh '''
-                        sonar-scanner \
-                          -Dsonar.projectKey=placement-portal \
-                          -Dsonar.projectName=placement-portal \
-                          -Dsonar.sources=.
-                    '''
+                    withEnv(["PATH+SONAR=${tool 'SonarScanner'}/bin"]) {
+                        sh '''
+                            sonar-scanner \
+                              -Dsonar.projectKey=placement-portal \
+                              -Dsonar.projectName=placement-portal \
+                              -Dsonar.sources=.
+                        '''
+                    }
                 }
             }
         }
-
     }
 
     post {
