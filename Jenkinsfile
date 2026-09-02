@@ -14,7 +14,7 @@ pipeline {
             steps {
                 withSonarQubeEnv(
                     installationName: 'SonarQube',
-                    credentialsId: 'sonarqube-token'
+                    credentialsId: 'sonarqube-token-new'
                 ) {
                     withEnv(["PATH+SONAR=${tool 'SonarScanner'}/bin"]) {
                         sh '''
