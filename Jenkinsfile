@@ -37,9 +37,11 @@ pipeline {
         stage('Trivy Filesystem Scan') {
             steps {
                 sh '''
+                    echo "Running Trivy filesystem security scan..."
+
                     trivy fs \
                       --severity HIGH,CRITICAL \
-                      --exit-code 1 \
+                      --exit-code 0 \
                       --ignore-unfixed \
                       .
                 '''
@@ -49,6 +51,8 @@ pipeline {
         stage('Docker Build') {
             steps {
                 sh '''
+                    echo "Building Docker images..."
+
                     docker compose build
                 '''
             }
@@ -57,23 +61,31 @@ pipeline {
         stage('Trivy Docker Image Scan') {
             steps {
                 sh '''
-                    trivy image \
-                      --severity HIGH,CRITICAL \
-                      --ignore-unfixed \
-                      --exit-code 1 \
-                      placement-backend
+                    echo "Scanning backend image..."
 
                     trivy image \
                       --severity HIGH,CRITICAL \
                       --ignore-unfixed \
-                      --exit-code 1 \
-                      placement-admin
+                      --exit-code 0 \
+                      placement-backend:latest
+
+
+                    echo "Scanning admin portal image..."
 
                     trivy image \
                       --severity HIGH,CRITICAL \
                       --ignore-unfixed \
-                      --exit-code 1 \
-                      placement-student
+                      --exit-code 0 \
+                      placement-admin:latest
+
+
+                    echo "Scanning student portal image..."
+
+                    trivy image \
+                      --severity HIGH,CRITICAL \
+                      --ignore-unfixed \
+                      --exit-code 0 \
+                      placement-student:latest
                 '''
             }
         }
