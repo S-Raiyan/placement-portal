@@ -3,6 +3,7 @@ services:
   backend:
     build:
       context: ./backend
+    image: placement-backend:latest
     container_name: placement-backend
     ports:
       - "5000:5000"
@@ -13,6 +14,7 @@ services:
   admin-portal:
     build:
       context: ./admin-portal
+    image: placement-admin:latest
     container_name: placement-admin
     ports:
       - "3000:80"
@@ -23,6 +25,7 @@ services:
   student-portal:
     build:
       context: ./student-portal
+    image: placement-student:latest
     container_name: placement-student
     ports:
       - "3001:80"
