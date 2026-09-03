@@ -158,23 +158,24 @@ pipeline {
                     set -e
 
                     NAMESPACE="placement-portal"
+                    K3S="sudo -n /usr/local/bin/k3s kubectl"
 
                     echo "========================================="
                     echo "Starting Kubernetes rollout"
                     echo "========================================="
 
                     echo "Restarting backend deployment..."
-                    sudo k3s kubectl rollout restart \
+                    $K3S rollout restart \
                         deployment/placement-backend \
                         -n "$NAMESPACE"
 
                     echo "Restarting admin deployment..."
-                    sudo k3s kubectl rollout restart \
+                    $K3S rollout restart \
                         deployment/placement-admin \
                         -n "$NAMESPACE"
 
                     echo "Restarting student deployment..."
-                    sudo k3s kubectl rollout restart \
+                    $K3S rollout restart \
                         deployment/placement-student \
                         -n "$NAMESPACE"
 
@@ -182,34 +183,42 @@ pipeline {
                     echo "Waiting for backend rollout..."
                     echo "========================================="
 
-                    sudo k3s kubectl rollout status \
+                    $K3S rollout status \
                         deployment/placement-backend \
                         -n "$NAMESPACE" \
                         --timeout=180s
+
+                    echo "Backend rollout successful!"
 
                     echo "========================================="
                     echo "Waiting for admin rollout..."
                     echo "========================================="
 
-                    sudo k3s kubectl rollout status \
+                    $K3S rollout status \
                         deployment/placement-admin \
                         -n "$NAMESPACE" \
                         --timeout=180s
+
+                    echo "Admin rollout successful!"
 
                     echo "========================================="
                     echo "Waiting for student rollout..."
                     echo "========================================="
 
-                    sudo k3s kubectl rollout status \
+                    $K3S rollout status \
                         deployment/placement-student \
                         -n "$NAMESPACE" \
                         --timeout=180s
+
+                    echo "Student rollout successful!"
 
                     echo "========================================="
                     echo "Kubernetes rollout completed successfully!"
                     echo "========================================="
 
-                    sudo k3s kubectl get pods \
+                    echo "Current Kubernetes pods:"
+
+                    $K3S get pods \
                         -n "$NAMESPACE" \
                         -o wide
                 '''
