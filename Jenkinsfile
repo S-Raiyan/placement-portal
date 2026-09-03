@@ -49,4 +49,16 @@ pipeline {
             echo 'CI/CD pipeline execution finished.'
         }
     }
+
+    stage('Trivy Security Scan') {
+    steps {
+        sh '''
+            trivy fs \
+              --severity HIGH,CRITICAL \
+              --exit-code 1 \
+              --ignore-unfixed \
+              .
+        '''
+    }
+}
 }
