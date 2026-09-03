@@ -61,4 +61,22 @@ pipeline {
             echo 'CI/CD pipeline execution finished.'
         }
     }
+
+    stage('Docker Build') {
+    steps {
+        sh '''
+            docker compose build
+        '''
+    }
+}
+
+stage('Trivy Docker Image Scan') {
+    steps {
+        sh '''
+            trivy image --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 placement-backend
+            trivy image --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 placement-admin
+            trivy image --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 placement-student
+        '''
+    }
+}
 }
