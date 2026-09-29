@@ -242,4 +242,8 @@ pipeline {
             echo 'CI/CD pipeline execution finished.'
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> efe67356e9dcce5bc4f71c512d0a6ee064a0ee74
